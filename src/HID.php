@@ -2,14 +2,12 @@
 
 namespace Felix\HumanIdGenerator;
 
-
 use Savvot\Random\MtRand;
 
 /**
  * - 10 characters long (without hyphens / spaces)
  * - The hyphens/spaces based on their position represent the month
  * - The first character is a letter
- *
  */
 class HID
 {
@@ -33,9 +31,13 @@ class HID
         '5',
         '7',
     ];
+
     private MtRand $random;
+
     private array $alphabet;
+
     private int $alphabetSize;
+
     private $intMaxDiv = 1 / PHP_INT_MAX;
 
     public function __construct()

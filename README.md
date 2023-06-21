@@ -33,7 +33,7 @@ These IDs are not intended to be used as primary keys in a database.
 Features I want (from less feasible to most feasible):
 * Sortability
 * Collision resistance (in a way that makes sense considering the use case)
-* URL-safe / Cookie-safe
+* URL-safe / Cookie-safe (check)
 
 ## Installation
 

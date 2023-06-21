@@ -20,6 +20,7 @@ class Random
         if (self::$rnd === null) {
             self::$rnd = new MtRand();
         }
+
         return self::$rnd;
     }
 
