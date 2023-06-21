@@ -6,6 +6,8 @@
 [![Total Downloads](https://poser.pugx.org/felixdorn/human-id-generator/downloads)](//packagist.org/packages/felixdorn/human-id-generator)
 [![License](https://poser.pugx.org/felixdorn/human-id-generator/license)](//packagist.org/packages/felixdorn/human-id-generator)
 
+> This is a working POC, full of terrible code.
+
 ## Why? How?
 
 Human IDs are IDs that are:
@@ -46,6 +48,10 @@ composer require felixdorn/human-id-generator
 ## Usage
 
 // Usage goes here
+
+## Structure
+
+* 
 
 ## Testing
 

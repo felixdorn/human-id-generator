@@ -22,4 +22,14 @@ class Random
         }
         return self::$rnd;
     }
+
+    public static function from(array $set)
+    {
+        return static::generator()->arrayRandValue($set);
+    }
+
+    public static function fromWeighted(array $weightedArray)
+    {
+        return static::generator()->arrayWeightRand($weightedArray);
+    }
 }

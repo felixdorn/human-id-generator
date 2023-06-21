@@ -2,74 +2,79 @@
 
 namespace Felix\HumanIdGenerator;
 
-use function _PHPStan_f6e65bd66\RingCentral\Psr7\str;
 
+use Savvot\Random\MtRand;
+
+/**
+ * - 10 characters long (without hyphens / spaces)
+ * - The hyphens/spaces based on their position represent the month
+ * - The first character is a letter
+ *
+ */
 class HID
 {
-    public static array $easy = [
+    protected const ALPHABET = [
         'A',
-        'U',
-        'T',
-    ];
-
-    public static array $hard = [
-        'B',
+        'E',
+        'I',
         'C',
         'D',
-        'F',
         'G',
         'H',
-        'M',
-        'N',
+        'U',
+        'T',
         'P',
         'Q',
-        'S',
-        'V',
+        'T',
+        'U',
+        '2',
+        '4',
+        '5',
+        '7',
     ];
+    private MtRand $random;
+    private array $alphabet;
+    private int $alphabetSize;
+    private $intMaxDiv = 1 / PHP_INT_MAX;
 
-    public static function generate()
+    public function __construct()
     {
-        $id = '';
-        $size = 12;
+        $this->random = new MtRand();
+        $this->defaultAlphabet = array_combine(
+            array_values(self::ALPHABET),
+            array_fill(0, count(self::ALPHABET), 1000)
+        );
+        $this->alphabetSize = count($this->defaultAlphabet);
+    }
 
-        while (strlen($id) < $size) {
-            if (strlen($id) == 0) {
-                $id .= self::$hard[Random::generator()->arrayRand(self::$hard)];
-                continue;
-            }
+    public function generate(): string
+    {
+        $id = static::ALPHABET[$this->random->random(0, $this->alphabetSize - 1)];
+        $size = 9;
+        $alphabet = $this->defaultAlphabet;
+        $sum = 1000 * $this->alphabetSize;
 
-            if (strlen($id) == 1) {
-                $id .= self::$easy[Random::generator()->arrayRand(self::$easy)];
-                continue;
-            }
-
-            $vowelCount = 0;
-            $consonantCount = 0;
-
-            for ($i = 0; $i < strlen($id); $i++) {
-                if (in_array($id[$i], self::$easy)) {
-                    $vowelCount++;
-                } else {
-                    $consonantCount++;
-                }
-            }
-
-            $weightedArray = [];
-
-            foreach (self::$easy as $vowel) {
-                $weightedArray[$vowel] = 1 - ($vowelCount / strlen($id));
-            }
-
-            foreach (self::$hard as $consonant) {
-                $weightedArray[$consonant] = 1 - ($consonantCount / strlen($id));
-            }
-
-            if (strlen($id) > 8) {
-                dd($id, $weightedArray);
-            }
-
-            $id .= Random::generator()->arrayWeightRand($weightedArray);
+        while ($size !== 0) {
+            $lastLetter = $id[-1];
+            $previous = $alphabet[$lastLetter];
+            $change = ((int)($alphabet[$lastLetter] - ($alphabet[$lastLetter] / $this->alphabetSize)));
+            $this->alphabet[$lastLetter] = $change;
+            $sum = $sum - $previous + $change;
+            $id .= $this->arrayWeightRand($alphabet, $sum);
+            $size--;
         }
 
+        return $id;
+    }
+
+    public function arrayWeightRand(array $array, float $sum)
+    {
+        $targetWeight = $this->random->random(1, $sum);
+        foreach ($array as $key => $weight) {
+            $targetWeight -= $weight;
+            if ($targetWeight <= 0) {
+                return $key;
+            }
+        }
     }
 }

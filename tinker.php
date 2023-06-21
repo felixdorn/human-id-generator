@@ -4,4 +4,11 @@ require __DIR__ . '/vendor/autoload.php';
 
 use Felix\HumanIdGenerator\HID;
 
-echo HID::generate() . PHP_EOL;
+$hid = new HID();
+echo PHP_EOL;
+for ($i = 0; $i < 1_000_000; $i++) {
+    $h = $hid->generate();
+
+    echo $h . PHP_EOL;
+}
+
