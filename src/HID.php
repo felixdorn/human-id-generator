@@ -2,6 +2,7 @@
 
 namespace Felix\HumanIdGenerator;
 
+use RuntimeException;
 use Savvot\Random\MtRand;
 
 /**
@@ -37,8 +38,7 @@ class HID
     private array $alphabet;
 
     private int $alphabetSize;
-
-    private $intMaxDiv = 1 / PHP_INT_MAX;
+    private array $defaultAlphabet;
 
     public function __construct()
     {
@@ -60,7 +60,7 @@ class HID
         while ($size !== 0) {
             $lastLetter = $id[-1];
             $previous = $alphabet[$lastLetter];
-            $this->alphabet[$lastLetter] = (int) ($previous - $previous / $this->alphabetSize);
+            $this->alphabet[$lastLetter] = (int)($previous - $previous / $this->alphabetSize);
             $sum += $this->alphabet[$lastLetter] - $previous;
             $id .= $this->arrayWeightRand($alphabet, $sum);
             $size--;
@@ -69,8 +69,9 @@ class HID
         return $id;
     }
 
-    public function arrayWeightRand(array $array, float $sum)
+    public function arrayWeightRand(array $array, float $sum): string
     {
+        /* @phpstan-ignore-next-line */
         $targetWeight = $this->random->random(1, $sum);
         foreach ($array as $key => $weight) {
             $targetWeight -= $weight;
@@ -78,5 +79,7 @@ class HID
                 return $key;
             }
         }
+
+        throw new RuntimeException('Should not happen: just keeping PHPStan happy');
     }
 }
