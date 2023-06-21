@@ -1,6 +1,6 @@
 {
     "name": "felixdorn/name",
-    "description": ":description",
+    "description": "A package to generate very readable IDs intented for customer support.",
     "license": "MIT",
     "authors": [
         {
@@ -19,12 +19,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Felix\\:namespace\\": "src/"
+            "Felix\\HumanIdGenerator\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Felix\\:namespace\\Tests\\": "tests/"
+            "Felix\\HumanIdGenerator\\Tests\\": "tests/"
         }
     },
     "minimum-stability": "dev",
