@@ -1,5 +1,5 @@
 {
-    "name": "felixdorn/name",
+    "name": "felixdorn/human-id-generator",
     "description": "A package to generate very readable IDs intented for customer support.",
     "license": "MIT",
     "authors": [

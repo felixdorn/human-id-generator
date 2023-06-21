@@ -21,6 +21,7 @@ class HID
         'D',
         'G',
         'H',
+        'M',
         'U',
         'T',
         'P',
@@ -57,9 +58,8 @@ class HID
         while ($size !== 0) {
             $lastLetter = $id[-1];
             $previous = $alphabet[$lastLetter];
-            $change = ((int)($alphabet[$lastLetter] - ($alphabet[$lastLetter] / $this->alphabetSize)));
-            $this->alphabet[$lastLetter] = $change;
-            $sum = $sum - $previous + $change;
+            $this->alphabet[$lastLetter] = (int) ($previous - $previous / $this->alphabetSize);
+            $sum += $this->alphabet[$lastLetter] - $previous;
             $id .= $this->arrayWeightRand($alphabet, $sum);
             $size--;
         }
